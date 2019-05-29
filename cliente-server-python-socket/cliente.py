@@ -1,12 +1,24 @@
-import socket
-HOST = '127.0.0.1'     # Endereco IP do Servidor
-PORT = 5000            # Porta que o Servidor esta
-tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-dest = (HOST, PORT)
-tcp.connect(dest)
-print ('Para sair use CTRL+X\n')
-msg = raw_input()
-while (1):
-    tcp.send (msg)
-    msg = raw_input()
-tcp.close()
+import socket, psutil
+host = socket.gethostname()
+porta = 9999
+
+# Cria o socket
+s = socket.socket()
+try:
+# Tenta se conectar ao servidor
+    s.connect((host, porta))
+except Exception as erro:
+    print(str(erro))
+
+
+print('Conexão efetuada com',host)
+#Recebe informações disponiveis
+msg = s.recv(1024)
+print(msg.decode('utf-8'))
+while True:
+    #Aguarda usuario digitar opção para monitorar
+    menu = input('Digite a opção que deseja monitorar:')
+    s.send(menu.encode('utf-8')) #Envia opção escolhida pelo usuario
+    #recebe informações
+    info = s.recv(1024)
+    print(info.decode())
