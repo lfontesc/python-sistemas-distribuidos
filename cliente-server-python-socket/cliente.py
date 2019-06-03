@@ -17,6 +17,7 @@ msg = s.recv(1024)
 print(msg.decode('utf-8'))
 while True:
     #Aguarda usuario digitar opção para monitorar
+    print('Seja Bem-Vindo ao Bird')
     menu = input('Digite a opção que deseja monitorar:')
     s.send(menu.encode('utf-8')) #Envia opção escolhida pelo usuario
     #recebe informações
