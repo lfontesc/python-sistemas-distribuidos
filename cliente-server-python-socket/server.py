@@ -1,4 +1,6 @@
 import socket, psutil
+import database
+#print(database.verificarLogin("fontes","fontes001"))
 
 def mostra_uso_ram():
     mem = psutil.virtual_memory()
@@ -35,10 +37,13 @@ while True:
         socket_cliente.close()
         break
     if '1' == msg.decode('utf-8'):
+        print(database.verificarLogin("fontes","fontes001"))
         info1 = ('O usuario solicitou fazer o login no BIRD')
         socket_cliente.send(info1.encode('utf-8')) # Envia mensagem
-        resposta = socket_cliente.recv(1024)
-        print(resposta)
+        login = socket_cliente.recv(1024)
+        senha = socket_cliente.recv(1024)
+        print(login)
+        print(senha)
         
     if '2' == msg.decode('UTF-8'):
         info2 = ('Usuario solicitou Informações sobre Memoria')
@@ -57,7 +62,7 @@ while True:
         print(info3)
         
     if '5' == msg.decode('UTF-8'):
-        info3 = ('Usuario solicitou Informações sobre Rede')
+        info3 = database.verificarLogin("fontes","fontes001")
         socket_cliente.send(info3.encode('utf-8')) # Envia mensagem
         print(info3)
         

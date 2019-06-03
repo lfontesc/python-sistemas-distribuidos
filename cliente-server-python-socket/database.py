@@ -1,8 +1,9 @@
 import sqlite3
 conn = sqlite3.connect('bird.db')
-cursor = conn.cursor()
 
-def insertUser(nome,login,senha,email,criado_em):
+
+def insertUser():
+    cursor = conn.cursor()
     # solicitando os dados ao usuário
     p_nome = input('Nome: ')
     p_login = input('Login: ')
@@ -14,9 +15,18 @@ def insertUser(nome,login,senha,email,criado_em):
     INSERT INTO usuarios (nome, login, senha, email, criado_em)
     VALUES (?,?,?,?,?)
     """, (p_nome, p_login, p_senha, p_email, p_criado_em))
+    conn.commit()
+    print('Dados inseridos com sucesso.')
+    conn.close()
 
-conn.commit()
-print('Dados inseridos com sucesso.')
+def verificarLogin(login,senha):
+    cursor = conn.cursor()
+    # solicitando os dados ao usuário
+    cursor.execute("SELECT login,senha FROM usuarios WHERE login = ? and senha = ?", (login,senha))
+    if(cursor == 0):
+        return False
+    else:
+        return True
+    conn.close()
 
-
-conn.close()
+#print(verificarLogin("fontes","fontes001"))
