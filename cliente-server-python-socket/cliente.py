@@ -19,11 +19,8 @@ while True:
     print('====== \n Seja Bem-Vindo ao BIRD \n======')
     menu = input('Digite a opção que deseja realizar:')
     print(menu)
-    if (menu == '1'):
-        login = input('Digite o login: ')
-        senha = input('Digite o senha: ')
-        s.send(login.encode('utf-8'))
-        s.send(senha.encode('utf-8'))
+    if (menu == 1):
+        print("ekdlskdlsdkslk")
     s.send(menu.encode('utf-8')) #Envia opção escolhida pelo usuario
     #recebe informações
     info = s.recv(1024)
