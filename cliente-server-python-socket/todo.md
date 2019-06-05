@@ -24,16 +24,16 @@ pelos participantes seguidos.
 ### Servidor
 
 * Armazenar as informações de todos os participantes (Login, Senha, Nome e
-Informações de Perfil);
+Informações de Perfil); **(Feito)**
 * Armazenar as mensagens postadas por todos os participantes (as
 mensagens deve ter no máximo 100 caracteres), e respectivas Data e Hora
-de postagem;
+de postagem; **(Feito)**
 * Armazenar as interações entre participantes (avaliações e
 compartilhamentos de mensagens e seguimentos de participantes); 
-* Permitir autenticação (através de login/senha);
-* Disponibilizar lista de participantes cadastrados;
+* Permitir autenticação (através de login/senha); **(Feito)**
+* Disponibilizar lista de participantes cadastrados; **(Feito)**
 * Disponibilizar visualização de dados de determinado participantes (Nome e
-Informações de Perfil);
+Informações de Perfil); **(Feito)**
 * Disponibilizar lista de mensagens postadas por determinado participante;
 * Disponibilizar total de avaliações (positivas/negativas) por mensagem
 postada;
@@ -41,13 +41,13 @@ postada;
 ### Cliente
 
 * Cadastrar novo perfil na rede social (Login, Senha, Nome e Informações de
-Perfil);
-* Acessar a rede social através de Login/Senha previamente cadastrados;
-* Visualizar lista de participantes cadastrados;
-* Visualizar informações de perfil de determinado participante;
-* Seguir um (ou mais) participante(s) cadastrado(s) na rede social;
+Perfil); **(Feito)**
+* Acessar a rede social através de Login/Senha previamente cadastrados; **(Feito)**
+* Visualizar lista de participantes cadastrados; **(Feito)**
+* Visualizar informações de perfil de determinado participante; **(Feito)**
+* Seguir um (ou mais) participante(s) cadastrado(s) na rede social; **(Feito)**
 * Visualização das mensagens postadas por todos os participantes seguidos
-(as mensagens devem ser exibidas por ordem decrescente de Data e Hora);
+(as mensagens devem ser exibidas por ordem decrescente de Data e Hora); **(Feito)**
 * Enviar mensagens para um determinado participante, desde que esteja
 sendo seguido;
 * Avaliar (positivamente/negativamente) uma (ou mais) mensagem(ns) de

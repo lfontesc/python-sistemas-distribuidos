@@ -13,7 +13,8 @@ except Exception as erro:
 print('Conexão efetuada com',host)
 #Recebe informações disponiveis
 msg = s.recv(1024)
-print(msg)
+print("\n")
+print(msg.decode())
 while True:
     #Aguarda usuario digitar opção para monitorar
     #print('====== \n Seja Bem-Vindo ao BIRD \n======')
@@ -30,6 +31,24 @@ while True:
         senha = input("Digite o senha: ")
         email = input("Digite a email: ")
         dic = str([menu,login,nome,senha,email])
+        s.sendall(dic.encode())
+    if (menu == '3'):
+        dic = str([menu])
+        s.sendall(dic.encode())
+    if (menu == '4'):
+        nome = input("Digite o nome do usuario: ")
+        dic = str([menu,nome])
+        s.sendall(dic.encode())
+    if (menu == '5'):
+        login = input("Digite o username do usuario: ")
+        dic = str([menu,login])
+        s.sendall(dic.encode())
+    if (menu == '6'):
+        post = input("Digite o texto do post: ")
+        dic = str([menu,post])
+        s.sendall(dic.encode())
+    if (menu == '7'):
+        dic = str([menu])
         s.sendall(dic.encode())
     #s.send(menu.encode()) #Envia opção escolhida pelo usuario
     #recebe informações
