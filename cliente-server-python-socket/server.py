@@ -1,13 +1,6 @@
 import ast
 import socket, psutil
 import database
-#print(database.verificarLogin("fontes","fontes001"))
-
-def mostra_uso_ram():
-    mem = psutil.virtual_memory()
-    text = '\nMemoria Total: {}'.format(mem.total/(1024*1024*1024))
-    text += '\nMemoria Usada: {}'.format(mem.used/(1024*1024*1024))
-    return text
 
 # Cria o socket
 socket_servidor = socket.socket()
@@ -23,15 +16,18 @@ print("Servidor", host, "esperando conexão na porta", porta)
 # Aceita alguma conexão
 (socket_cliente,addr) = socket_servidor.accept()
 print("Conectado a:", str(addr))
-    #print('====== \n Seja Bem-Vindo ao BIRD \n======')
-info5 = ("\n================================== \n Seja Bem-Vindo ao BIRD \n==================================\nVocê não está logado, por favor 1 para se logar.\n")
-socket_cliente.send(info5.encode('utf-8')) # Envia mensagem
+# dic = str([menu,mensagem,marcar])
+#         s.sendall(dic.encode())
+info5 = ("\n================================== \n Seja Bem-Vindo ao BIRD \n==================================\nVocê não está logado, por favor digite 1 para se logar.\n")
+#socket_cliente.send(info5.encode('utf-8')) # Envia mensagem
+dic = str([info5])
+socket_cliente.sendall(dic.encode())
 logado = False
 
 #terminou = False
 while True:
-    info = ("\n============= Menu ============= \n 1 - Fazer Login \n 2 - Cadastrar Novo Usuario \n 3 - Listar Usuarios\n 4 - Listar um Usuario Especifico \n 5 - Seguir um Usuario \n 6 - Postar \n 7 - Visualizar Posts \n 8 - Enviar Menssagem para um Usuario \n 9 - Avaliar Post \n $ - para encerrar a conexão\n ================================ \n")
-    socket_cliente.send(info.encode('utf-8')) # Envia resposta
+    #info = ("\n============= Menu ============= \n 1 - Fazer Login \n 2 - Cadastrar Novo Usuario \n 3 - Listar Usuarios\n 4 - Listar um Usuario Especifico \n 5 - Seguir um Usuario \n 6 - Postar Mensagens \n 7 - Visualizar Mensagens \n 8 - Enviar Menssagem para um Usuario \n 9 - Avaliar Post \n $ - para encerrar a conexão\n ================================ \n")
+    #socket_cliente.send(info.encode('utf-8')) # Envia resposta
     msg = socket_cliente.recv(1024)
     valor = ast.literal_eval(msg.decode())
     if '$' == msg.decode('utf-8'): #Termino do cliente
@@ -46,6 +42,8 @@ while True:
         if(len(info2) == 0):
             logado = False
             print("Login ou senha errada tente novamente")
+            info = ("Tente novamente")
+            socket_cliente.send(info.encode('utf-8')) # Envia resposta
         else:
             logado = True
             idUsuario = info2[0]
@@ -85,17 +83,23 @@ while True:
         #print(info3)
     
     if '6' == valor[0]:
-        db = database.postar(idUsuario[0],valor[1])
+        db = database.postarMensagem(idUsuario[0],valor[1],valor[2])
         info = ("Post efetuado com sucesso")
         socket_cliente.send(info.encode())
 
     if '7' == valor[0]:
-        db = str(database.listarPosts(idUsuario[0]))
-        print(idUsuario[0])
-        print(database.listarPosts(idUsuario[0]))
-        print(db)
-        print("nao tem nada")
+        db = str(database.listarMensagens(idUsuario[0]))
         socket_cliente.send(db.encode())
 
+    if '8' == valor[0]:
+        resultado = database.pesquisarId(valor[1])
+        estaSeguindo = database.estaSeguindo(idUsuario[0],resultado[0][0])
+        if(estaSeguindo):
+            db = database.enviarMensagem(idUsuario[0],resultado[0][0],valor[1])
+            info = ("Mensagem enviada com sucesso")
+            socket_cliente.send(info.encode())
+        else:
+            info = ("Você não pode enviar uma mensagem, pois não está seguindo esse usuario")
+            socket_cliente.send(info.encode())
     else:
         pass

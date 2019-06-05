@@ -1,4 +1,5 @@
 import socket, psutil
+import ast
 host = socket.gethostname()
 porta = 9999
 
@@ -13,9 +14,10 @@ except Exception as erro:
 print('Conexão efetuada com',host)
 #Recebe informações disponiveis
 msg = s.recv(1024)
-print("\n")
-print(msg.decode())
+valor = ast.literal_eval(msg.decode())
+print(valor[0])
 while True:
+    print("\n============= Menu ============= \n 1 - Fazer Login \n 2 - Cadastrar Novo Usuario \n 3 - Listar Usuarios\n 4 - Listar um Usuario Especifico \n 5 - Seguir um Usuario \n 6 - Postar Mensagens \n 7 - Visualizar Mensagens \n 8 - Enviar Menssagem para um Usuario \n 9 - Avaliar Post \n $ - para encerrar a conexão\n ================================ \n")
     #Aguarda usuario digitar opção para monitorar
     #print('====== \n Seja Bem-Vindo ao BIRD \n======')
     menu = input('Digite a opção que deseja realizar:')
@@ -45,11 +47,33 @@ while True:
         s.sendall(dic.encode())
     if (menu == '6'):
         post = input("Digite o texto do post: ")
-        dic = str([menu,post])
+        pergunta = input("Deseja marcar alguem [s/n] ?")
+        if(pergunta == 's'):
+            marcar = input("Digite o nome dos usuarios separado por "','" para marcar: ")
+        else:
+            marcar = ''
+        dic = str([menu,post,marcar])
         s.sendall(dic.encode())
     if (menu == '7'):
         dic = str([menu])
         s.sendall(dic.encode())
+    if (menu == '8'):
+        mensagem = input("Digite a mensagem: ")
+        pergunta = input("Deseja marcar alguem [s/n] ?")
+        if(pergunta == 's'):
+            marcar = input("Digite o nome dos usuarios separado por "','" para marcar: ")
+        else:
+            marcar = ''
+        dic = str([menu,mensagem,marcar])
+        s.sendall(dic.encode())
+    if (menu == '9'):
+        mensagem = input("Insira o ID da mensagem para avaliar: ")
+        resp = input("1 - dar Like\n2 - dar Deslike")
+        if(resp == '1'):
+            print("usuario deu like")
+        else:
+            print("usuario deu deslike")
+
     #s.send(menu.encode()) #Envia opção escolhida pelo usuario
     #recebe informações
     info = s.recv(1024)

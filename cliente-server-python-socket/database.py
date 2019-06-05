@@ -72,30 +72,79 @@ def pesquisarId(login):
         return dados
     conn.close()
 
-def postar(idUsuario,texto):
+def postarMensagem(idUsuario,texto,marcado):
     conn = sqlite3.connect('bird.db')
     cursor = conn.cursor()
     criado_em = datetime.today()
     # solicitando lista de usuários
     cursor.execute("""
-    INSERT INTO posts (idUsuario, texto,criado_em)
-    VALUES (?,?,?)
-    """, (idUsuario,texto,criado_em))
+    INSERT INTO mensagens (idUsuario, texto,mencionados,criado_em)
+    VALUES (?,?,?,?)
+    """, (idUsuario,texto,marcado,criado_em))
     conn.commit()
     print('Dados inseridos com sucesso.')
     conn.close()
 
-def listarPosts(idUsuario):
+def darLike(idMensagem):
     conn = sqlite3.connect('bird.db')
     cursor = conn.cursor()
     # solicitando lista de usuários
-    cursor.execute("SELECT texto,p.criado_em,u.nome FROM posts as p JOIN seguidores as s ON s.idSeguidor = p.idUsuario JOIN usuarios as u ON u.id = s.idUsuario WHERE s.idUsuario = ? ORDER BY p.criado_em ", (idUsuario,))
+    cursor.execute("""
+    UPDATE mensagens SET likes = likes+1 WHERE id = ?
+    """, (idMensagem,))
+    conn.commit()
+    print('Dados alterados com sucesso.')
+    conn.close()
+
+def darDeslike(idMensagem):
+    conn = sqlite3.connect('bird.db')
+    cursor = conn.cursor()
+    # solicitando lista de usuários
+    cursor.execute("""
+    UPDATE mensagens SET likes = likes-1 WHERE id = ?
+    """, (idMensagem,))
+    conn.commit()
+    print('Dados alterados com sucesso.')
+    conn.close()
+
+
+def listarMensagens(idUsuario):
+    conn = sqlite3.connect('bird.db')
+    cursor = conn.cursor()
+    # solicitando lista de usuários
+    cursor.execute("SELECT p.id,texto,p.criado_em,u.nome FROM mensagens as p JOIN seguidores as s ON s.idSeguidor = p.idUsuario JOIN usuarios as u ON u.id = s.idUsuario WHERE s.idUsuario = ? ORDER BY p.criado_em ", (idUsuario,))
     dados = cursor.fetchall()
     if(len(dados) == 0):
         return 0
     else:
         return dados
-    conn.close()   
+    conn.close()
+
+# def enviarMensagem(idEnviado,idRecebido,mensagem):
+#     conn = sqlite3.connect('bird.db')
+#     cursor = conn.cursor()
+#     criado_em = datetime.today()
+#     # solicitando lista de usuários
+#     cursor.execute("""
+#     INSERT INTO mensagem (idUsuarioEnviado, idUsuarioRecebido, mensagem,criado_em)
+#     VALUES (?,?,?,?)
+#     """, (idEnviado,idRecebido, mensagem,criado_em))
+#     conn.commit()
+#     print('Dados inseridos com sucesso.')
+#     conn.close()
+
+def estaSeguindo(idSeguidor,idUsuario):
+    conn = sqlite3.connect('bird.db')
+    cursor = conn.cursor()
+    # solicitando lista de usuários
+    cursor.execute("SELECT * FROM seguidores WHERE idSeguidor = ? and idUsuario = ? ", (idSeguidor,idUsuario,))
+    dados = cursor.fetchall()
+    if(len(dados) == 0):
+        return False
+    else:
+        return True
+    conn.close()
+
 #print(verificarLogin("fontes","fontes001"))
 #insertUser("cartaxo","cartaxo1","cartaxo001","cartaxo@gmail.com")
 #listarUsuarios()
@@ -103,4 +152,9 @@ def listarPosts(idUsuario):
 #seguirUsuario(1,20)
 #print(pesquisarId("fontes"))
 #postar(1,"isso é so um teste viu, tenha calma xD xD")
-print(listarPosts(1))
+#print(listarPosts(1))
+#enviarMensagem(100,100,"testando o envio de mensagem")
+#print(estaSeguindo(20,1))
+#postarMensagem(1,"dkslkdsldskll","fontes,lucas")
+#darLike(7)
+darDeslike(7)

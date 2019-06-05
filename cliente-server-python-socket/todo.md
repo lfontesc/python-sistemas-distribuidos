@@ -48,7 +48,7 @@ Perfil); **(Feito)**
 * Seguir um (ou mais) participante(s) cadastrado(s) na rede social; **(Feito)**
 * Visualização das mensagens postadas por todos os participantes seguidos
 (as mensagens devem ser exibidas por ordem decrescente de Data e Hora); **(Feito)**
-* Enviar mensagens para um determinado participante, desde que esteja
+* Enviar mensagens para um determinado participante, desde que esteja **(Feito)**
 sendo seguido;
 * Avaliar (positivamente/negativamente) uma (ou mais) mensagem(ns) de
 participantes seguidos na rede social; 
