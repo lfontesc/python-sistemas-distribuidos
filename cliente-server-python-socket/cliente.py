@@ -17,7 +17,7 @@ msg = s.recv(1024)
 valor = ast.literal_eval(msg.decode())
 print(valor[0])
 while True:
-    print("\n============= Menu ============= \n 1 - Fazer Login \n 2 - Cadastrar Novo Usuario \n 3 - Listar Usuarios\n 4 - Listar um Usuario Especifico \n 5 - Seguir um Usuario \n 6 - Postar Mensagens \n 7 - Visualizar Mensagens \n 8 - Enviar Menssagem para um Usuario \n 9 - Avaliar Post \n $ - para encerrar a conexão\n ================================ \n")
+    print("\n============= Menu ============= \n 1 - Fazer Login \n 2 - Cadastrar Novo Usuario \n 3 - Listar Usuarios\n 4 - Listar um Usuario Especifico \n 5 - Seguir um Usuario \n 6 - Postar Mensagens \n 7 - Visualizar Mensagens \n 8 - Enviar Menssagem para um Usuario \n 9 - Avaliar Post \n $ - para encerrar a conexão\n================================ \n")
     #Aguarda usuario digitar opção para monitorar
     #print('====== \n Seja Bem-Vindo ao BIRD \n======')
     menu = input('Digite a opção que deseja realizar:')
@@ -77,4 +77,13 @@ while True:
     #s.send(menu.encode()) #Envia opção escolhida pelo usuario
     #recebe informações
     info = s.recv(1024)
-    print(info.decode())
+    b="'[(,)]"
+    if(menu == '3'):
+        str1 = info.decode()
+        for i in range(0,len(b)):
+            str1 = str1.replace(b[i],"")
+        str2 = str1.split(" ")
+        for i in str2:
+            print("Usuario: ",i)
+    else:
+        print(info.decode())

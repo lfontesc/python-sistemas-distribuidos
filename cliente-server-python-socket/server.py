@@ -64,7 +64,9 @@ while True:
 
     if '3' == valor[0]:
         info3 = str(database.listarUsuarios())
-        socket_cliente.send(info3.encode()) # Envia mensagem
+        dic = str([info3])
+        socket_cliente.sendall(dic.encode())
+        #socket_cliente.send(info3.encode()) # Envia mensagem
         
     if '4' == valor[0]:
         info3 = str(database.listarUnicoUsuario(valor[1]))
