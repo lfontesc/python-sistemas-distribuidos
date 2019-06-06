@@ -4,6 +4,7 @@ from datetime import datetime
 
 
 def insertUser(nome,login,senha,email):
+    conn = sqlite3.connect('bird.db')
     cursor = conn.cursor()
     # solicitando os dados ao usuário
     p_criado_em = datetime.today()
@@ -17,6 +18,7 @@ def insertUser(nome,login,senha,email):
     conn.close()
 
 def verificarLogin(login,senha):
+    conn = sqlite3.connect('bird.db')
     cursor = conn.cursor()
     # solicitando os dados ao usuário
     cursor.execute("SELECT id FROM usuarios WHERE login = ? and senha = ?", (login,senha))
@@ -25,6 +27,7 @@ def verificarLogin(login,senha):
     conn.close()
 
 def listarUsuarios():
+    conn = sqlite3.connect('bird.db')
     cursor = conn.cursor()
     # solicitando lista de usuários
     cursor.execute("SELECT nome FROM usuarios")
@@ -101,7 +104,7 @@ def darDeslike(idMensagem):
     cursor = conn.cursor()
     # solicitando lista de usuários
     cursor.execute("""
-    UPDATE mensagens SET likes = likes-1 WHERE id = ?
+    UPDATE mensagens SET deslikes = deslikes+1 WHERE id = ?
     """, (idMensagem,))
     conn.commit()
     print('Dados alterados com sucesso.')
@@ -112,7 +115,7 @@ def listarMensagens(idUsuario):
     conn = sqlite3.connect('bird.db')
     cursor = conn.cursor()
     # solicitando lista de usuários
-    cursor.execute("SELECT p.id,texto,p.criado_em,u.nome FROM mensagens as p JOIN seguidores as s ON s.idSeguidor = p.idUsuario JOIN usuarios as u ON u.id = s.idUsuario WHERE s.idUsuario = ? ORDER BY p.criado_em ", (idUsuario,))
+    cursor.execute("SELECT p.id,texto,p.criado_em,u.nome,p.likes,p.deslikes FROM mensagens as p JOIN seguidores as s ON s.idSeguidor = p.idUsuario JOIN usuarios as u ON u.id = s.idUsuario WHERE s.idUsuario = ? ORDER BY p.criado_em ", (idUsuario,))
     dados = cursor.fetchall()
     if(len(dados) == 0):
         return 0
@@ -145,6 +148,15 @@ def estaSeguindo(idSeguidor,idUsuario):
         return True
     conn.close()
 
+def quantoslikes(idMensagem):
+    conn = sqlite3.connect('bird.db')
+    cursor = conn.cursor()
+    # solicitando lista de usuários
+    cursor.execute("SELECT likes FROM mensagens WHERE id = ?", (idMensagem,))
+    dados = cursor.fetchall()
+    return dados
+    conn.close()
+
 #print(verificarLogin("fontes","fontes001"))
 #insertUser("cartaxo","cartaxo1","cartaxo001","cartaxo@gmail.com")
 #listarUsuarios()
@@ -157,4 +169,8 @@ def estaSeguindo(idSeguidor,idUsuario):
 #print(estaSeguindo(20,1))
 #postarMensagem(1,"dkslkdsldskll","fontes,lucas")
 #darLike(7)
-darDeslike(7)
+#darDeslike(7)
+#print(pesquisarId("samu"))
+
+dado = quantoslikes(11)
+print(dado[0][0])

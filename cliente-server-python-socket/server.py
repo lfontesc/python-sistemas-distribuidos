@@ -1,6 +1,7 @@
 import ast
 import socket, psutil
 import database
+import pickle
 
 # Cria o socket
 socket_servidor = socket.socket()
@@ -23,6 +24,7 @@ info5 = ("\n================================== \n Seja Bem-Vindo ao BIRD \n=====
 dic = str([info5])
 socket_cliente.sendall(dic.encode())
 logado = False
+idUsuario = 0
 
 #terminou = False
 while True:
@@ -42,12 +44,12 @@ while True:
         if(len(info2) == 0):
             logado = False
             print("Login ou senha errada tente novamente")
-            info = ("Tente novamente")
+            info = ("\n Login ou Senha errada, Tente novamente.")
             socket_cliente.send(info.encode('utf-8')) # Envia resposta
         else:
             logado = True
             idUsuario = info2[0]
-            info = ('~ Você está logado no BIRD ~\n')
+            info = ('\n========== Você está logado no BIRD ==========\n')
             socket_cliente.send(info.encode('utf-8'))
             print("Login Efetuado com Sucesso")
         #socket_cliente.send(info1.encode('utf-8')) # Envia mensagem
@@ -75,13 +77,18 @@ while True:
         
     if '5' == valor[0]:
         resultado = database.pesquisarId(valor[1])
+        print(resultado)
         if(logado == False):
             info = ("Você não está logado por favor faça o login")
             socket_cliente.send(info.encode('utf-8')) # Envia mensagem
-        else: 
-            info3 = database.seguirUsuario(idUsuario[0],resultado[0][0])
-            info = ("Agora você está seguindo esse usuario")
-            socket_cliente.send(info.encode('utf-8')) # Envia mensagem
+        else:
+            if(resultado == 0):
+                info = ("Usuario não existe.")
+                socket_cliente.send(info.encode('utf-8'))
+            else:
+                info3 = database.seguirUsuario(idUsuario[0],resultado[0][0])
+                info = ("Agora você está seguindo esse usuario")
+                socket_cliente.send(info.encode('utf-8')) # Envia mensagem
         #print(info3)
     
     if '6' == valor[0]:
@@ -90,8 +97,14 @@ while True:
         socket_cliente.send(info.encode())
 
     if '7' == valor[0]:
-        db = str(database.listarMensagens(idUsuario[0]))
-        socket_cliente.send(db.encode())
+        if(logado == False):
+            info = ("Você não está logado por favor faça o login")
+            socket_cliente.send(info.encode('utf-8')) # Envia mensagem
+        else:
+            db = database.listarMensagens(idUsuario[0])
+            var = pickle.dumps(db)
+            socket_cliente.send(var)
+            #socket_cliente.send(db.encode())
 
     if '8' == valor[0]:
         resultado = database.pesquisarId(valor[1])
@@ -102,6 +115,15 @@ while True:
             socket_cliente.send(info.encode())
         else:
             info = ("Você não pode enviar uma mensagem, pois não está seguindo esse usuario")
+            socket_cliente.send(info.encode())
+    if '9' == valor[0]:
+        if(valor[2] == '1'):
+            database.darLike(valor[1])
+            info = ("operação realizada com sucesso")
+            socket_cliente.send(info.encode())
+        if(valor[2] == '2'):
+            database.darDeslike(valor[1])
+            info = ("operação realizada com sucesso")
             socket_cliente.send(info.encode())
     else:
         pass

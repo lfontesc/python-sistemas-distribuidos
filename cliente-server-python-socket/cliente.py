@@ -1,5 +1,6 @@
 import socket, psutil
 import ast
+import pickle
 host = socket.gethostname()
 porta = 9999
 
@@ -17,7 +18,7 @@ msg = s.recv(1024)
 valor = ast.literal_eval(msg.decode())
 print(valor[0])
 while True:
-    print("\n============= Menu ============= \n 1 - Fazer Login \n 2 - Cadastrar Novo Usuario \n 3 - Listar Usuarios\n 4 - Listar um Usuario Especifico \n 5 - Seguir um Usuario \n 6 - Postar Mensagens \n 7 - Visualizar Mensagens \n 8 - Enviar Menssagem para um Usuario \n 9 - Avaliar Post \n $ - para encerrar a conexão\n================================ \n")
+    print("\n============= Menu ============= \n 1 - Fazer Login \n 2 - Cadastrar Novo Usuario \n 3 - Listar Usuarios\n 4 - Listar um Usuario Especifico \n 5 - Seguir um Usuario \n 6 - Postar Mensagens \n 7 - Visualizar Mensagens \n 8 - Enviar Menssagem para um Usuario \n 9 - Avaliar Post \n 10 - Quantos Likes tem ? \n $ - para encerrar a conexão\n================================ \n")
     #Aguarda usuario digitar opção para monitorar
     #print('====== \n Seja Bem-Vindo ao BIRD \n======')
     menu = input('Digite a opção que deseja realizar:')
@@ -69,21 +70,71 @@ while True:
     if (menu == '9'):
         mensagem = input("Insira o ID da mensagem para avaliar: ")
         resp = input("1 - dar Like\n2 - dar Deslike")
-        if(resp == '1'):
-            print("usuario deu like")
-        else:
-            print("usuario deu deslike")
-
+        dic = str([menu,mensagem,resp])
+        s.sendall(dic.encode())
+    if (menu == '10'):
+        mensagem = input("Insira o ID da mensagem: ")
+        dic = str([menu,mensagem])
+        s.sendall(dic.encode())
     #s.send(menu.encode()) #Envia opção escolhida pelo usuario
     #recebe informações
     info = s.recv(1024)
     b="'[(,)]"
     if(menu == '3'):
+        print("\nLista de Usuarios: ")
         str1 = info.decode()
         for i in range(0,len(b)):
             str1 = str1.replace(b[i],"")
         str2 = str1.split(" ")
         for i in str2:
             print("Usuario: ",i)
+    
+    if(menu == '4'):
+        msg = info.decode()
+        if(msg == '0'):
+            print("Usuario Não existe, tente novamente.")
+        else:
+            for i in range(0,len(b)):
+                msg = msg.replace(b[i],"")
+            str2 = msg.split(" ")
+            print("nome: ",str2[0])
+            print("username: ",str2[1])
+            print("email: ",str2[2])
+            print("Usuario desde: ",str2[3])
+    if(menu == '7'):
+        #msg = info.decode()
+        if(msg == '0'):
+            print("Nenhuma mensagem ainda. ")
+        else:
+            vartipo = pickle.loads(info)
+            print("\n----------- Lista de Mensagens -----------\n")
+            for i in vartipo:
+                print("************ Mensagem ************")
+                print("ID: ",i[0])
+                print("Username: ", i[3])
+                print("Mensagem: ", i[1])
+                print("enviada em: ",i[2])
+                print("**********************************\n")
+            print("--------------------------------------------\n")
+            pass
+          #  b="[()]"
+           # for i in range(0,len(b)):
+            #    msg = msg.replace(b[i],"")
+            #str2 = msg.split("'")
+            #print(msg)
+            #print("ID: ",str2[0])
+            #print("Mensagem de: ",str2[5])
+            #print("Mensagem: ",str2[1])
+            #print("em: ",str2[3])
+            #print(msg)
+            #print(str2[0])
+            #print(str2)
+    if(menu == '10'):
+        msg = info.decode()
+        b="[,()]"
+        for i in range(0,len(b)):
+                msg = msg.replace(b[i],"")
+        print("Essa postagem tem: ", msg," avaliações")
     else:
-        print(info.decode())
+        msg = info.decode()
+        print(msg)
