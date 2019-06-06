@@ -45,14 +45,17 @@ def continuarProcesso(pid):
 
 #executar processo
 def executarProcesso(path):
-    os.execl(path, *sys.argv)
+    print(path)
+    subprocess.call(['xfce4-terminal', '-e', '%s'  %(path,)])
+    #subprocess.Popen('xterm -e "%s"' % command)
     print('Processo criado com sucesso!')
 
 #reiniciar processo
 def reiniciarProcesso(pid):
     processo = psutil.Process(pid).exe()
     finalizarProcesso(pid)
-    subprocess.Popen(processo)
+    subprocess.call(['xfce4-terminal', '-e', '%s' %(processo,)])
+   # subprocess.Popen(processo)
     print('Proceso reiniciado com sucesso.') 
 
 #finalizar processo
@@ -84,6 +87,7 @@ if __name__=='__main__':
         print('3 - Alterar Estado de um processo.')
         print('4 - Alterar Prioridade de um processo.')
         print('5 - Sair')
+        print("===================================")
         menu = int(input("root@root-$ "))
         if(menu == 1):
             user = input('Digite o usuario para buscar os seus processos: ')
