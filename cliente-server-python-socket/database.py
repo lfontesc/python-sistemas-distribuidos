@@ -172,5 +172,5 @@ def quantoslikes(idMensagem):
 #darDeslike(7)
 #print(pesquisarId("samu"))
 
-dado = quantoslikes(11)
-print(dado[0][0])
+#dado = quantoslikes(11)
+#print(dado[0][0])

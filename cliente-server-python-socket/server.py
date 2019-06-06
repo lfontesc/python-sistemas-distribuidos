@@ -94,7 +94,7 @@ while True:
     if '6' == valor[0]:
         db = database.postarMensagem(idUsuario[0],valor[1],valor[2])
         info = ("Post efetuado com sucesso")
-        socket_cliente.send(info.encode())
+        socket_cliente.send(info.encode('utf-8'))
 
     if '7' == valor[0]:
         if(logado == False):
@@ -103,6 +103,7 @@ while True:
         else:
             db = database.listarMensagens(idUsuario[0])
             var = pickle.dumps(db)
+            print(var)
             socket_cliente.send(var)
             #socket_cliente.send(db.encode())
 
@@ -125,5 +126,8 @@ while True:
             database.darDeslike(valor[1])
             info = ("operação realizada com sucesso")
             socket_cliente.send(info.encode())
+    if '10' == valor[0]:
+        resultado = str(database.quantoslikes(valor[1]))
+        socket_cliente.send(resultado.encode())
     else:
         pass

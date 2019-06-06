@@ -76,10 +76,13 @@ while True:
         mensagem = input("Insira o ID da mensagem: ")
         dic = str([menu,mensagem])
         s.sendall(dic.encode())
+    else:
+        pass
     #s.send(menu.encode()) #Envia opção escolhida pelo usuario
     #recebe informações
     info = s.recv(1024)
     b="'[(,)]"
+
     if(menu == '3'):
         print("\nLista de Usuarios: ")
         str1 = info.decode()
@@ -88,7 +91,6 @@ while True:
         str2 = str1.split(" ")
         for i in str2:
             print("Usuario: ",i)
-    
     if(menu == '4'):
         msg = info.decode()
         if(msg == '0'):
@@ -101,6 +103,12 @@ while True:
             print("username: ",str2[1])
             print("email: ",str2[2])
             print("Usuario desde: ",str2[3])
+    if(menu == '10'):
+        msg = info.decode()
+        b="[,()]"
+        for i in range(0,len(b)):
+            msg = msg.replace(b[i],"")
+        print("Essa postagem tem: ", msg,"avaliações")
     if(menu == '7'):
         #msg = info.decode()
         if(msg == '0'):
@@ -116,25 +124,20 @@ while True:
                 print("enviada em: ",i[2])
                 print("**********************************\n")
             print("--------------------------------------------\n")
-            pass
-          #  b="[()]"
-           # for i in range(0,len(b)):
-            #    msg = msg.replace(b[i],"")
-            #str2 = msg.split("'")
-            #print(msg)
-            #print("ID: ",str2[0])
-            #print("Mensagem de: ",str2[5])
-            #print("Mensagem: ",str2[1])
-            #print("em: ",str2[3])
-            #print(msg)
-            #print(str2[0])
-            #print(str2)
-    if(menu == '10'):
+    if(menu == '1'):
         msg = info.decode()
-        b="[,()]"
-        for i in range(0,len(b)):
-                msg = msg.replace(b[i],"")
-        print("Essa postagem tem: ", msg," avaliações")
-    else:
+        print(info.decode())
+    if(menu == '2'):
         msg = info.decode()
-        print(msg)
+        print(info.decode())        
+    if(menu == '5'):
+        msg = info.decode()
+        print(info.decode())
+    if(menu == '6'):
+        msg = info.decode()
+        print(info.decode())
+    if(menu == '8'):
+        msg = info.decode()
+        print(info.decode())
+
+    ##3471012
