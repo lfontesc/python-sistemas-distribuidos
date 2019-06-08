@@ -21,14 +21,18 @@ def listaProcessosUsuario(user):
 
 # informações de um processo
 def infoProcesso(pid):
+    #logica para pegar a hora do processo
     horap = datetime.fromtimestamp(psutil.Process(pid).create_time())
     horaa = datetime.now()
+    #o time recebe a hora atual menos a hora que o processo iniciou, levando a quaunto tempo o processo está executando
     time = str(horaa - horap)
+    #mostrando a info do processo
     print("PID:",psutil.Process(pid).pid,"NAME:",psutil.Process(pid).name(),"USER:",psutil.Process(pid).username(),"NICE:",psutil.Process(pid).nice(),"STATUS",psutil.Process(pid).status(),"TIME",time[0:7])
     print ('-' * 45)
 
 # bloquear um processo
 def bloquearProcesso(pid):
+    #verifica se o processo ja esta bloqueado, se não estiver ele bloqueia 
     if(psutil.Process(pid).status() != 'stopped'):
         psutil.Process(pid).suspend()
         print('O processo foi bloqueado.')
@@ -45,13 +49,14 @@ def continuarProcesso(pid):
 
 #executar processo
 def executarProcesso(path):
-    print(path)
+    #iniciando um sub processo chamando ele pelo comando em um terminal novo
     subprocess.call(['xfce4-terminal', '-e', '%s'  %(path,)])
     #subprocess.Popen('xterm -e "%s"' % command)
     print('Processo criado com sucesso!')
 
 #reiniciar processo
 def reiniciarProcesso(pid):
+    #salva o proceso, finaliza e depois executa denovo
     processo = psutil.Process(pid).exe()
     finalizarProcesso(pid)
     subprocess.call(['xfce4-terminal', '-e', '%s' %(processo,)])
@@ -60,11 +65,13 @@ def reiniciarProcesso(pid):
 
 #finalizar processo
 def finalizarProcesso(pid):
+    #.terminate() para terminar o processo
     psutil.Process(pid).terminate()
     print('Processo foi finalizado com sucesso.')
 
 def baixarPrioridade(pid):
     processo = psutil.Process(pid)
+    #alterando o nice de 1 em 1
     nice = processo.nice()
     nice = nice + 1
     processo.nice(nice)
@@ -81,6 +88,7 @@ def aumentarPrioridade(pid):
 ##função principal onde vai rodar o menu
 if __name__=='__main__':
     while(1):
+        #menu
         print("======== Task Manager V0.8 ========")
         print('1 - Listar processos de um usuario.')
         print('2 - Informacoes de um processo.')

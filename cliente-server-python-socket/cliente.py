@@ -1,6 +1,8 @@
 import socket, psutil
 import ast
 import pickle
+
+#informações sobre o socket 
 host = socket.gethostname()
 porta = 9999
 
