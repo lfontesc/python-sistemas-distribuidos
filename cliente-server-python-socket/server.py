@@ -124,7 +124,7 @@ while True:
         else:
             info = ("Você não pode enviar uma mensagem, pois não está seguindo esse usuario")
             socket_cliente.send(info.encode())
-    if '9' == valor[0]:
+    if '9' == valor[0]: # avaliar post, se a pergunta do like for 1 ele dar like se nao da deslike
         if(valor[2] == '1'):
             database.darLike(valor[1])
             info = ("operação realizada com sucesso")
@@ -133,7 +133,7 @@ while True:
             database.darDeslike(valor[1])
             info = ("operação realizada com sucesso")
             socket_cliente.send(info.encode())
-    if '10' == valor[0]:
+    if '10' == valor[0]: #manda quantos likes tem um post
         resultado = str(database.quantoslikes(valor[1]))
         socket_cliente.send(resultado.encode())
     else:

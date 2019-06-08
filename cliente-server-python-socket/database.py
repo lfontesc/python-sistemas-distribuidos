@@ -2,7 +2,7 @@ import sqlite3
 conn = sqlite3.connect('bird.db')
 from datetime import datetime
 
-
+#inserir usuario no banco
 def insertUser(nome,login,senha,email):
     conn = sqlite3.connect('bird.db')
     cursor = conn.cursor()
@@ -17,6 +17,7 @@ def insertUser(nome,login,senha,email):
     print('Dados inseridos com sucesso.')
     conn.close()
 
+#verificar login do usuario
 def verificarLogin(login,senha):
     conn = sqlite3.connect('bird.db')
     cursor = conn.cursor()
@@ -26,6 +27,7 @@ def verificarLogin(login,senha):
     return dados
     conn.close()
 
+#listar todos os usuarios
 def listarUsuarios():
     conn = sqlite3.connect('bird.db')
     cursor = conn.cursor()
@@ -38,6 +40,7 @@ def listarUsuarios():
         return dados
     conn.close()
 
+#listar unico usuario pelo nome (username)
 def listarUnicoUsuario(nome):
     conn = sqlite3.connect('bird.db')
     cursor = conn.cursor()
@@ -51,6 +54,7 @@ def listarUnicoUsuario(nome):
         return dados
     conn.close()
 
+#seguir usuario, tendo como parametro o usuario e quem ele quer seguir
 def seguirUsuario(usuario,seguidor):
     conn = sqlite3.connect('bird.db')
     cursor = conn.cursor()
@@ -75,6 +79,7 @@ def pesquisarId(login):
         return dados
     conn.close()
 
+#postar uma mensagem 
 def postarMensagem(idUsuario,texto,marcado):
     conn = sqlite3.connect('bird.db')
     cursor = conn.cursor()
@@ -88,6 +93,7 @@ def postarMensagem(idUsuario,texto,marcado):
     print('Dados inseridos com sucesso.')
     conn.close()
 
+# avaliar post positivamente
 def darLike(idMensagem):
     conn = sqlite3.connect('bird.db')
     cursor = conn.cursor()
@@ -99,6 +105,7 @@ def darLike(idMensagem):
     print('Dados alterados com sucesso.')
     conn.close()
 
+# avaliar post negativamente
 def darDeslike(idMensagem):
     conn = sqlite3.connect('bird.db')
     cursor = conn.cursor()
@@ -111,6 +118,7 @@ def darDeslike(idMensagem):
     conn.close()
 
 
+#listar as mensagens do quem o usuario está seguindo no BIRD
 def listarMensagens(idUsuario):
     conn = sqlite3.connect('bird.db')
     cursor = conn.cursor()
@@ -136,6 +144,7 @@ def listarMensagens(idUsuario):
 #     print('Dados inseridos com sucesso.')
 #     conn.close()
 
+#função para verificar se uma pessoa seguindo a outra retorna true ou false
 def estaSeguindo(idSeguidor,idUsuario):
     conn = sqlite3.connect('bird.db')
     cursor = conn.cursor()
@@ -148,6 +157,7 @@ def estaSeguindo(idSeguidor,idUsuario):
         return True
     conn.close()
 
+#verificar quantos likes tem um post
 def quantoslikes(idMensagem):
     conn = sqlite3.connect('bird.db')
     cursor = conn.cursor()
