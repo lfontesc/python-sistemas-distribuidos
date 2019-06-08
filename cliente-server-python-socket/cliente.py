@@ -4,6 +4,10 @@ import pickle
 host = socket.gethostname()
 porta = 9999
 
+## Lucas Fontes Cartaxo
+## Francisco Maycon Lima Silva
+## Elias Sampaio dos Santos
+
 # Cria o socket
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 try:
@@ -114,7 +118,8 @@ while True:
         if(msg == '0'):
             print("Nenhuma mensagem ainda. ")
         else:
-            vartipo = pickle.loads(info)
+            vartipo = pickle.
+            (info)
             print("\n----------- Lista de Mensagens -----------\n")
             for i in vartipo:
                 print("************ Mensagem ************")

@@ -115,7 +115,7 @@ def listarMensagens(idUsuario):
     conn = sqlite3.connect('bird.db')
     cursor = conn.cursor()
     # solicitando lista de usuários
-    cursor.execute("SELECT p.id,texto,p.criado_em,u.nome,p.likes,p.deslikes FROM mensagens as p JOIN seguidores as s ON s.idSeguidor = p.idUsuario JOIN usuarios as u ON u.id = s.idUsuario WHERE s.idUsuario = ? ORDER BY p.criado_em ", (idUsuario,))
+    cursor.execute("SELECT p.id,texto,p.criado_em,u.nome,p.likes,p.deslikes FROM mensagens as p JOIN seguidores as s ON s.idSeguidor = p.idUsuario JOIN usuarios as u ON u.id = p.idUsuario WHERE s.idUsuario = ? ORDER BY p.criado_em ", (idUsuario,))
     dados = cursor.fetchall()
     if(len(dados) == 0):
         return 0

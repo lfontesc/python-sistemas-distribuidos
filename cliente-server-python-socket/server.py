@@ -131,3 +131,6 @@ while True:
         socket_cliente.send(resultado.encode())
     else:
         pass
+
+
+#listar todas as msg
